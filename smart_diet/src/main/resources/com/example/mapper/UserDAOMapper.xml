@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.dao.UserDao">
+
+    <!--login-->
+    <select id="login" parameterType="User" resultType="User">
+        select id,username,password,usertype
+        from t_user
+        where username=#{username}
+        and password=#{password}
+    </select>
+    <!--addUserBase-->
+    <insert id="addUserBase" parameterType="UserBase" >
+        insert into base_information values(#{userid},#{height},#{weight},#{weight_type})
+    </insert>
+
+    <update id="updateUserBase">
+		update base_information set height=#{height},weight=#{weight},weight_type=#{weight_type} where userid=#{userid}
+	</update>
+
+    <select id="getUserBase" resultType="UserBase">
+		select * from base_information where userid=#{userid}
+	</select>
+
+    <select id="getUserDiet" resultType="UserDiet">
+		select * from mydiet where userid=#{userid}
+	</select>
+
+    <insert id="addUserDiet" parameterType="UserDiet" >
+        insert into mydiet values(#{userid},#{breakfast},#{lunch},#{dinner},#{date},#{weight},#{food_heat},#{food_pic},#{allheat})
+    </insert>
+
+    <select id="getWater" resultType="Water">
+		select * from mywater where userid=#{userid} Order By date Desc
+	</select>
+
+    <update id="updateWater">
+		update mywater set water=#{water},ml=#{ml} where date=#{date} and userid=#{userid}
+	</update>
+
+    <insert id="addWater" parameterType="Water" >
+        insert into mywater values(#{userid},#{water},#{date},#{ml})
+    </insert>
+
+    <select id="getArticle" resultType="Article">
+		select * from article  Order By hot Desc
+	</select>
+
+    <select id="searchArticle" resultType="Article">
+		select * from article where title like CONCAT('%',#{title},'%')
+	</select>
+
+    <update id="addHot">
+		update article set hot=#{hot} where title=#{title}
+	</update>
+
+    <insert id="addArticle" parameterType="Article" >
+        insert into article values(#{userid},#{article},#{date},#{hot},#{title},#{id})
+    </insert>
+
+    <select id="getAllUser" resultType="User">
+		select * from t_user  Order By  id
+	</select>
+
+    <insert id="addUser" parameterType="User" >
+        insert into t_user values(#{id},#{username},#{password},#{usertype})
+    </insert>
+
+    <update id="editUser">
+		update t_user set username=#{username},password=#{password},usertype=#{usertype} where id=#{id}
+	</update>
+
+    <delete id="delUser" parameterType="User" >
+        delete from t_user where id=#{id}
+    </delete>
+
+    <update id="reset">
+		update t_user set password=123456 where id=#{id}
+	</update>
+
+    <select id="searchAllUser" resultType="User">
+		select * from t_user where username like CONCAT('%',#{username},'%')
+	</select>
+
+    <insert id="addAdvice" parameterType="Advice" >
+        insert into advice values(#{advice},#{detail},#{name})
+    </insert>
+
+    <select id="getAdvice" resultType="Advice">
+		select * from advice
+	</select>
+
+    <select id="searchAdvice" resultType="Advice">
+		select * from advice where advice like CONCAT('%',#{advice},'%')
+	</select>
+
+    <delete id="delArticle" parameterType="Article" >
+        delete from article where id=#{id}
+    </delete>
+
+    <select id="getEat" resultType="Eat">
+		select * from eat
+	</select>
+
+    <select id="searchEat" resultType="Eat">
+		select * from eat where detail like concat('%',#{detail},'%')
+	</select>
+
+    <select id="gettheEat" resultType="Eat">
+		select * from eat where id=#{id}
+	</select>
+
+    <insert id="addEat" parameterType="Eat" >
+        insert into eat values(#{id},#{userid},#{pic},#{detail},#{hot},#{breakfast},#{lunch},#{dinner})
+    </insert>
+
+    <update id="editEat">
+		update eat set userid=#{userid},pic=#{pic},detail=#{detail},breakfast=#{breakfast},lunch=#{lunch},dinner=#{dinner},hot=#{hot} where id=#{id}
+	</update>
+
+    <delete id="delEat" parameterType="Eat" >
+        delete from eat where id=#{id}
+    </delete>
+</mapper>
